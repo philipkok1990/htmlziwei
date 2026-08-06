@@ -1,0 +1,106 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background-color: #f4f1ea;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.control-panel {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* 4x4 紫微九宫格布局 */
+.ziwei-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 160px);
+    gap: 2px;
+    background-color: #8c7b6b;
+    border: 2px solid #8c7b6b;
+}
+
+.cell {
+    background-color: #fffef9;
+    padding: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* 中宫样式 */
+.center-box {
+    grid-column: 2 / 4;
+    grid-row: 2 / 4;
+    background-color: #f7f4ed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1.8;
+}
+
+/* 宫位内部元素 */
+.cell-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cell-title {
+    color: #8b0000;
+}
+
+.stars-main {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #d9534f;
+}
+
+.sihua {
+    display: inline-block;
+    padding: 1px 4px;
+    font-size: 10px;
+    color: white;
+    border-radius: 3px;
+    margin-left: 2px;
+}
+
+.sihua-lu { background-color: #5cb85c; }
+.sihua-quan { background-color: #d9534f; }
+.sihua-ke { background-color: #f0ad4e; }
+.sihua-ji { background-color: #337ab7; }
+
+.cell-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+    border-top: 1px dashed #ccc;
+    padding-top: 4px;
+}

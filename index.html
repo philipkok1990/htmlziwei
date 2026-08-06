@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紫微斗数排盘系统</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header class="control-panel">
+            <h2>紫微斗数排盘系统</h2>
+            <div class="form-group">
+                <label>性别：</label>
+                <select id="gender">
+                    <option value="male" selected>男 (阳男)</option>
+                    <option value="female">女</option>
+                </select>
+
+                <label>出生日期：</label>
+                <input type="datetime-local" id="birthDate" value="1990-04-24T12:15">
+
+                <button onclick="calculateAndRender()">重新排盘</button>
+            </div>
+        </header>
+
+        <main class="ziwei-board">
+            <div class="cell" id="cell-巳">巳</div>
+            <div class="cell" id="cell-午">午</div>
+            <div class="cell" id="cell-未">未</div>
+            <div class="cell" id="cell-申">申</div>
+
+            <div class="cell" id="cell-辰">辰</div>
+            <div class="cell center-box">
+                <h3 id="info-name">乾造 (1990-04-24)</h3>
+                <p id="info-lunar">农历：庚午年 三月 三十日 午时</p>
+                <p id="info-wuxing">五行局：<span id="wuxing-text">-</span></p>
+                <p id="info-ming-shen">命宫：<span id="ming-text">-</span> | 身宫：<span id="shen-text">-</span></p>
+            </div>
+            <div class="cell" id="cell-酉">酉</div>
+
+            <div class="cell" id="cell-卯">卯</div>
+            <div class="cell" id="cell-戌">戌</div>
+
+            <div class="cell" id="cell-寅">寅</div>
+            <div class="cell" id="cell-丑">丑</div>
+            <div class="cell" id="cell-子">子</div>
+            <div class="cell" id="cell-亥">亥</div>
+        </main>
+    </div>
+
+    <script src="dict.js"></script>
+    <script src="ziwei.js"></script>
+</body>
+</html>
