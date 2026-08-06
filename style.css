@@ -5,102 +5,344 @@
 }
 
 body {
-    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    background-color: #f4f1ea;
-    color: #333;
-    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background-color: #f2efe9;
+    color: #2c2c2c;
+    padding: 12px;
 }
 
-.container {
-    max-width: 1000px;
+.main-wrapper {
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+/* 控制表单 Header */
 .control-panel {
-    background: #fff;
-    padding: 15px 20px;
+    background: #ffffff;
+    padding: 12px 18px;
     border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.control-panel h2 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #7a1d1d;
 }
 
 .form-group {
-    margin-top: 10px;
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-/* 4x4 紫微九宫格布局 */
+.form-group label {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.form-group input, .form-group select {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background-color: #8b0000;
+    color: #fff;
+    padding: 5px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.btn-primary:hover {
+    background-color: #a00000;
+}
+
+/* 核心响应式布局架构 (电脑端左右，手机端上下) */
+.app-layout {
+    display: flex;
+    flex-direction: column; /* 默认手机端：上下布局 */
+    gap: 15px;
+}
+
+/* 电脑屏（≥ 850px）：切换为左右分栏 */
+@media (min-width: 850px) {
+    .app-layout {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .left-pane {
+        width: 480px; /* 缩小的正方形命盘容器 */
+        flex-shrink: 0;
+    }
+
+    .right-pane {
+        flex: 1;
+        min-width: 0; /* 防止子元素撑开 */
+    }
+}
+
+/* 命盘区域整体缩紧 */
+.ziwei-board-container {
+    background: #ffffff;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* 4x4 网格布局 */
 .ziwei-board {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 160px);
+    grid-template-rows: repeat(4, 125px); /* 高度紧凑 */
     gap: 2px;
     background-color: #8c7b6b;
     border: 2px solid #8c7b6b;
+    border-radius: 4px;
 }
 
 .cell {
-    background-color: #fffef9;
-    padding: 8px;
+    background-color: #fffdfa;
+    padding: 4px 5px;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.cell:hover, .cell.selected-cell {
+    background-color: #fbf3e6;
+    border: 1.5px solid #8b0000;
 }
 
 /* 中宫样式 */
 .center-box {
     grid-column: 2 / 4;
     grid-row: 2 / 4;
-    background-color: #f7f4ed;
+    background-color: #f7f3eb;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    line-height: 1.8;
+    padding: 6px;
+    gap: 4px;
 }
 
-/* 宫位内部元素 */
+.center-box h3 {
+    color: #8b0000;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.center-box p {
+    font-size: 12px;
+    color: #444;
+    font-weight: 600;
+}
+
+.view-tag {
+    margin-top: 4px;
+    padding: 2px 8px;
+    background-color: #8b0000;
+    color: #fff;
+    font-size: 11px;
+    border-radius: 10px;
+}
+
+/* 宫位头部与字体（加粗加大） */
 .cell-header {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 800; /* 大且粗 */
+    border-bottom: 1px dashed #e0e0e0;
+    padding-bottom: 2px;
 }
 
-.cell-title {
+.cell-palace-name {
     color: #8b0000;
+    font-size: 13px;
+    font-weight: 900;
 }
 
-.stars-main {
-    margin-top: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #d9534f;
+.cell-branch {
+    color: #555;
 }
 
+/* 星曜排列与字体强化 */
+.stars-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 5px;
+    margin-top: 2px;
+}
+
+.star-item {
+    font-size: 13px; /* 字体加大 */
+    font-weight: 800; /* 字体加粗 */
+    display: inline-flex;
+    align-items: center;
+}
+
+.star-main { color: #cc0000; }  /* 主星鲜红/深红 */
+.star-minor { color: #0055aa; } /* 吉煞星深蓝 */
+
+/* 四化及自化配色（文墨天机标准） */
 .sihua {
     display: inline-block;
-    padding: 1px 4px;
+    padding: 1px 3px;
     font-size: 10px;
-    color: white;
-    border-radius: 3px;
+    font-weight: 800;
+    color: #ffffff;
+    border-radius: 2px;
     margin-left: 2px;
+    line-height: 1;
 }
 
-.sihua-lu { background-color: #5cb85c; }
-.sihua-quan { background-color: #d9534f; }
-.sihua-ke { background-color: #f0ad4e; }
-.sihua-ji { background-color: #337ab7; }
+.sihua-lu   { background-color: #2baf4a; } /* 化禄 - 绿 */
+.sihua-quan { background-color: #9c27b0; } /* 化权 - 紫 */
+.sihua-ke   { background-color: #03a9f4; } /* 化科 - 蓝 */
+.sihua-ji   { background-color: #f44336; } /* 化忌 - 红 */
+.sihua-zi   { background-color: #ff9800; } /* 自化 - 橙 */
 
 .cell-footer {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: 700;
     color: #666;
-    border-top: 1px dashed #ccc;
-    padding-top: 4px;
+    border-top: 1px dotted #e0e0e0;
+    padding-top: 2px;
+}
+
+/* 右侧 Main Tab */
+.main-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    background-color: #dfd8c8;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #333;
+}
+
+.tab-btn.active {
+    background-color: #8b0000;
+    color: #ffffff;
+}
+
+/* 运程控制器 */
+.sub-controls {
+    background-color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    border-left: 4px solid #8b0000;
+}
+
+.sub-controls label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* 旁侧化象与飞星备注卡片 */
+.sihua-remark-card {
+    background-color: #fff9f0;
+    border: 1px solid #f0dfc8;
+    border-left: 4px solid #ff9800;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.sihua-remark-card h4 {
+    font-size: 13px;
+    color: #8b0000;
+    margin-bottom: 5px;
+}
+
+.remark-list {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #333;
+}
+
+.badge-tag {
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 4px;
+}
+
+/* 13个子 TAB */
+.detail-section {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.sub-tabs {
+    display: flex;
+    gap: 3px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #8b0000;
+}
+
+.sub-tab-btn {
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    background-color: #ece6d9;
+    border: none;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+}
+
+.sub-tab-btn.active {
+    background-color: #8b0000;
+    color: #ffffff;
+}
+
+.tab-content {
+    padding-top: 10px;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.tab-content h3 {
+    color: #8b0000;
+    margin-bottom: 6px;
+    font-size: 15px;
 }

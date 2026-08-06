@@ -3,51 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>紫微斗数排盘系统</title>
+    <title>紫微斗数精细排盘系统</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+    <div class="main-wrapper">
         <header class="control-panel">
-            <h2>紫微斗数排盘系统</h2>
+            <h2>☯️ 紫微斗数排盘系统</h2>
             <div class="form-group">
-                <label>性别：</label>
+                <label for="gender">性别：</label>
                 <select id="gender">
                     <option value="male" selected>男 (阳男)</option>
-                    <option value="female">女</option>
+                    <option value="female">女 (阴女)</option>
                 </select>
 
-                <label>出生日期：</label>
-                <input type="datetime-local" id="birthDate" value="1990-04-24T12:15">
+                <label for="birthDate">出生时间：</label>
+                <input type="datetime-local" id="birthDate" value="1990-04-24T11:46">
 
-                <button onclick="calculateAndRender()">重新排盘</button>
+                <button type="button" class="btn-primary" onclick="calculateAndRender()">重新排盘</button>
             </div>
         </header>
 
-        <main class="ziwei-board">
-            <div class="cell" id="cell-巳">巳</div>
-            <div class="cell" id="cell-午">午</div>
-            <div class="cell" id="cell-未">未</div>
-            <div class="cell" id="cell-申">申</div>
+        <div class="app-layout">
+            
+            <left-pane class="left-pane">
+                <div class="ziwei-board-container">
+                    <main class="ziwei-board">
+                        <div class="cell" id="cell-巳" onclick="selectPalace('巳')"></div>
+                        <div class="cell" id="cell-午" onclick="selectPalace('午')"></div>
+                        <div class="cell" id="cell-未" onclick="selectPalace('未')"></div>
+                        <div class="cell" id="cell-申" onclick="selectPalace('申')"></div>
 
-            <div class="cell" id="cell-辰">辰</div>
-            <div class="cell center-box">
-                <h3 id="info-name">乾造 (1990-04-24)</h3>
-                <p id="info-lunar">农历：庚午年 三月 三十日 午时</p>
-                <p id="info-wuxing">五行局：<span id="wuxing-text">-</span></p>
-                <p id="info-ming-shen">命宫：<span id="ming-text">-</span> | 身宫：<span id="shen-text">-</span></p>
-            </div>
-            <div class="cell" id="cell-酉">酉</div>
+                        <div class="cell" id="cell-辰" onclick="selectPalace('辰')"></div>
+                        <div class="cell center-box">
+                            <h3 id="info-name">乾造 (阳男)</h3>
+                            <p id="info-solar">阳历: 1990-04-24</p>
+                            <p id="info-lunar">农历: 庚午年三月廿九</p>
+                            <p id="info-wuxing">五行局: <span class="highlight">土五局</span></p>
+                            <p id="info-ming-shen">命宫: 申 | 身宫: 辰</p>
+                            <div id="info-current-view" class="view-tag">本命盘模式</div>
+                        </div>
+                        <div class="cell" id="cell-酉" onclick="selectPalace('酉')"></div>
 
-            <div class="cell" id="cell-卯">卯</div>
-            <div class="cell" id="cell-戌">戌</div>
+                        <div class="cell" id="cell-卯" onclick="selectPalace('卯')"></div>
+                        <div class="cell" id="cell-戌" onclick="selectPalace('戌')"></div>
 
-            <div class="cell" id="cell-寅">寅</div>
-            <div class="cell" id="cell-丑">丑</div>
-            <div class="cell" id="cell-子">子</div>
-            <div class="cell" id="cell-亥">亥</div>
-        </main>
+                        <div class="cell" id="cell-寅" onclick="selectPalace('寅')"></div>
+                        <div class="cell" id="cell-丑" onclick="selectPalace('丑')"></div>
+                        <div class="cell" id="cell-子" onclick="selectPalace('子')"></div>
+                        <div class="cell" id="cell-亥" onclick="selectPalace('亥')"></div>
+                    </main>
+                </div>
+            </left-pane>
+
+            <right-pane class="right-pane">
+                
+                <nav class="main-tabs">
+                    <button id="tab-btn-mingpan" class="tab-btn active" onclick="switchMainTab('mingpan')">命盘 TAB</button>
+                    <button id="tab-btn-yuncheng" class="tab-btn" onclick="switchMainTab('yuncheng')">运程 TAB</button>
+                </nav>
+
+                <div id="yuncheng-controls" class="sub-controls hidden">
+                    <div class="control-item">
+                        <label for="select-daxian">大限：</label>
+                        <select id="select-daxian" onchange="onYunchengChange()"></select>
+                    </div>
+                    <div class="control-item">
+                        <label for="select-liunian">流年：</label>
+                        <select id="select-liunian" onchange="onYunchengChange()"></select>
+                    </div>
+                    <div class="control-item">
+                        <label for="select-liuyue">流月：</label>
+                        <select id="select-liuyue" onchange="onYunchengChange()"></select>
+                    </div>
+                </div>
+
+                <div class="sihua-remark-card">
+                    <h4>📌 当前宫位化象与飞星备注</h4>
+                    <div id="sihua-notes-content" class="remark-list">
+                        </div>
+                </div>
+
+                <section class="detail-section">
+                    <nav class="sub-tabs" id="sub-tabs-container">
+                        </nav>
+                    <div class="tab-content" id="tab-content-box">
+                        </div>
+                </section>
+
+            </right-pane>
+
+        </div>
     </div>
 
     <script src="dict.js"></script>
