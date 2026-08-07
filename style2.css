@@ -6,8 +6,8 @@
 }
 
 body {
-    background-color: #fff;
-    color: #000;
+    background-color: #fcfcfc;
+    color: #111;
     padding: 15px;
 }
 
@@ -16,45 +16,83 @@ body {
     display: flex;
     gap: 12px;
     align-items: center;
-    border-bottom: 2px solid #000;
-    padding-bottom: 12px;
+    border: 1px solid #000;
+    background: #fff;
+    padding: 12px 15px;
     margin-bottom: 15px;
+    border-radius: 4px;
     flex-wrap: wrap;
 }
 
 .top-bar label {
     font-weight: bold;
+    font-size: 13px;
 }
 
 .top-bar input, .top-bar select, .top-bar button {
-    padding: 5px 10px;
+    padding: 6px 10px;
     border: 1px solid #000;
     background: #fff;
     color: #000;
-    font-size: 14px;
+    font-size: 13px;
+    border-radius: 2px;
 }
 
 .top-bar button {
     cursor: pointer;
     font-weight: bold;
+    background: #000;
+    color: #fff;
 }
 
 .top-bar button:hover {
-    background: #eee;
+    background: #333;
 }
 
-/* 30% / 70% 左右布局 */
+/* 30% / 70% 布局 */
 .main-container {
     display: flex;
     gap: 15px;
 }
 
 .left-panel {
-    width: 35%;
+    width: 32%;
 }
 
 .right-panel {
-    width: 65%;
+    width: 68%;
+}
+
+/* 左侧运势快览卡片 */
+.fortune-badge-card {
+    border: 1px solid #000;
+    background: #fff;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 0px #000;
+}
+
+.badge-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    padding: 3px 0;
+}
+
+.badge-item:not(:last-child) {
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 4px;
+    padding-bottom: 6px;
+}
+
+.badge-label {
+    font-weight: bold;
+}
+
+.badge-value {
+    font-weight: 600;
 }
 
 /* 基础黑白表格 */
@@ -62,6 +100,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 10px;
+    background: #fff;
 }
 
 table, th, td {
@@ -69,7 +108,7 @@ table, th, td {
 }
 
 th, td {
-    padding: 8px;
+    padding: 7px 8px;
     text-align: left;
     font-size: 13px;
 }
@@ -83,41 +122,136 @@ th {
 }
 
 #palaceTableBody tr:hover {
-    background-color: #f9f9f9;
+    background-color: #e0e0e0;
 }
 
-/* Tab 控制器 */
-.tab-header {
+.dayun-tag {
+    font-size: 11px;
+    color: #444;
+}
+
+/* Main TAB 样式 */
+.main-tab-header {
     display: flex;
+    gap: 8px;
     border-bottom: 2px solid #000;
     margin-bottom: 15px;
 }
 
-.tab-btn {
-    padding: 8px 16px;
+.main-tab-btn {
+    padding: 8px 18px;
     border: 1px solid #000;
     border-bottom: none;
-    background: #f0f0f0;
+    background: #e9e9e9;
     cursor: pointer;
+    font-size: 13px;
     font-weight: bold;
-    margin-right: 5px;
+    border-radius: 3px 3px 0 0;
 }
 
-.tab-btn.active {
+.main-tab-btn.active {
     background: #fff;
     border-bottom: 2px solid #fff;
     margin-bottom: -2px;
 }
 
-.tab-pane {
+.main-tab-content {
     display: none;
 }
 
-.tab-pane.active {
+.main-tab-content.active {
     display: block;
 }
 
-/* 只保留 4 化星的专属颜色 */
+/* Sub TAB 样式 */
+.sub-tab-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 6px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.sub-tab-btn {
+    padding: 4px 8px;
+    border: 1px solid #666;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 2px;
+}
+
+.sub-tab-btn.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    font-weight: bold;
+}
+
+.sub-tab-pane {
+    display: none;
+}
+
+.sub-tab-pane.active {
+    display: block;
+}
+
+/* 多级运势步骤框 */
+.fortune-step-box {
+    margin-bottom: 10px;
+}
+
+.step-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.tip-back {
+    font-weight: normal;
+    color: #666;
+    font-size: 11px;
+}
+
+/* 卡片区块样式 */
+.card-section {
+    border: 1px solid #000;
+    background: #fff;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 3px;
+}
+
+.card-section h3 {
+    font-size: 13px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.summary-table th {
+    width: 20%;
+    background: #f7f7f7;
+}
+
+.summary-table td {
+    width: 30%;
+}
+
+.analysis-box {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.star-list-ul {
+    padding-left: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* 四化专属色彩保留 */
 .sihua-tag {
     display: inline-block;
     padding: 1px 4px;
@@ -128,10 +262,10 @@ th {
     margin-left: 3px;
 }
 
-.sihua-禄 { background-color: #008000 !important; } /* 青色/绿色 */
-.sihua-权 { background-color: #800080 !important; } /* 紫色 */
-.sihua-科 { background-color: #0000ff !important; } /* 蓝色 */
-.sihua-忌 { background-color: #ff0000 !important; } /* 红色 */
+.sihua-禄 { background-color: #008000 !important; }
+.sihua-权 { background-color: #800080 !important; }
+.sihua-科 { background-color: #0000ff !important; }
+.sihua-忌 { background-color: #ff0000 !important; }
 
 .shen-mark {
     font-weight: bold;
