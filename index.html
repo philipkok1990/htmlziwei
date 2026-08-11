@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>紫微斗数排盘系统 (运势日期范围 + 13解说Tab版)</title>
-    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="style.css">
     <!-- 引入 Lunar 农历依赖库 -->
     <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
 </head>
@@ -36,13 +36,13 @@
             <div id="leftQuickInfo"></div>
 
             <h3>十二宫位简表</h3>
-            <table>
+            <table style="font-weight: bold; ">
                 <thead>
                     <tr>
-                        <th style="width: 25%;">宫位</th>
-                        <th style="width: 15%;">地支</th>
-                        <th style="width: 22%;">大运</th>
-                        <th style="width: 38%;">星曜 (含四化)</th>
+                        <th style="width: 20%;">宫位</th>
+                        <th style="width: 10%;">地支</th>
+                        <th style="width: 48%;">星曜 (含四化)</th>
+                        <th style="width: 22%;">大运</th> 
                     </tr>
                 </thead>
                 <tbody id="palaceTableBody">
@@ -97,7 +97,7 @@
 
     <!-- 脚本引入 -->
     <script src="dict.js"></script>
-    <script src="personal.js"></script>
+    <script src="person.js"></script>
     <script src="ziwei.js"></script>
     <script src="app.js"></script>
 </body>

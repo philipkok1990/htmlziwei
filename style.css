@@ -262,10 +262,10 @@ th {
     margin-left: 3px;
 }
 
-.sihua-禄 { background-color: #008000 !important; }
-.sihua-权 { background-color: #800080 !important; }
-.sihua-科 { background-color: #0000ff !important; }
-.sihua-忌 { background-color: #ff0000 !important; }
+.sihua-lu { background-color: #008000 !important; color:white;font-weight: bold; }
+.sihua-quan { background-color: #800080 !important; color:white;font-weight: bold;}
+.sihua-ke { background-color: #0000ff !important; color:white;font-weight: bold;}
+.sihua-ji { background-color: #ff0000 !important; color:white;font-weight: bold;}
 
 .shen-mark {
     font-weight: bold;

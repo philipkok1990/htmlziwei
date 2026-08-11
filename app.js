@@ -125,15 +125,15 @@ function renderLeftPanel() {
             const tr = document.createElement("tr");
             
             let starsStr = p.palaceRef.stars.map(s => {
-                let sihuaTag = s.sihua ? `<span class="sihua-${getHuaClass(s.sihua)}">[化${s.sihua}]</span>` : '';
+                let sihuaTag = s.sihua ? `<span class="sihua-${getHuaClass(s.sihua)}">[${s.sihua}]</span>` : '';
                 return `${s.name}${sihuaTag}`;
             }).join(" ");
 
             tr.innerHTML = `
-                <td><b>${p.name}宫</b></td>
+                <td><b>${p.name}</b></td>
                 <td>${p.branch}</td>
-                <td>${p.daYunText}</td>
                 <td style="font-size:12px; color:#333;">${starsStr || '(无主星)'}</td>
+                <td>${p.daYunText}</td> 
             `;
             tr.style.cursor = "pointer";
             tr.addEventListener("click", () => {
@@ -169,10 +169,14 @@ function renderSummaryTab() {
     });
 
     if (summarySubIndex === -1) {
+
+        let play = 'sdsdsd';
+
         container.innerHTML = `
             <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #ddd;">
                 <h3>【个人命盘总体综合解读】</h3>
                 <p style="margin-top:8px; color:#555;">本命盘以${currentChartData.userInfo.bureauStr}为主，命宫落在 ${currentChartData.orderedPalaceList[0].branch} 宫。整体星曜分布均衡，三方四正格局清晰。</p>
+                <p style="margin-top:8px; color:#555;">${play}</p>
             </div>
         `;
     } else {
@@ -395,13 +399,12 @@ function renderFortuneTab() {
 // 统一的宫位详细解说渲染器（完美支持多层级宫位追踪显示）
 function renderPalaceDetailContent(data) {
     const { palaceName, branch, palaceRef, scopeTitle, hierarchyInfo } = data;
-
+    
     const branches = ZIWEI_DICT.branches;
     const bIdx = branches.indexOf(branch);
     const duiBranch = branches[(bIdx + 6) % 12];
     const sanhe1 = branches[(bIdx + 4) % 12];
     const sanhe2 = branches[(bIdx + 8) % 12];
-
     const getPalaceByBranch = (b) => {
         return Object.values(currentChartData.palaceMap).find(item => item.branch === b);
     };
@@ -446,8 +449,14 @@ function renderPalaceDetailContent(data) {
     });
 
     let starsHtml = palaceRef.stars.map(s => {
-        let sihuaTag = s.sihua ? `<span class="sihua-${getHuaClass(s.sihua)}">[化${s.sihua}]</span>` : '';
-        return `<li>${s.name} ${sihuaTag} ${s.miaoWang ? '(' + s.miaoWang + ')' : ''}</li>`;
+        let nameTag = `<span style="font-weight:bold">[${s.name}]</span>`;
+        let sihuaTag = s.sihua ? `<span style="font-weight:bold" class="sihua-${getHuaClass(s.sihua)}">[化${s.sihua}]</span>` : '';
+        let brightnessTag = s.brightness ? `<span style="font-weight:bold">[${s.brightness}]</span>` : ''
+        let gongweiStarTag = ZIWEI_DICT.gongweistarMap?.[palaceName]?.[s.name] || "";
+ 
+
+
+        return `<li>${nameTag} ${sihuaTag} ${brightnessTag} ${gongweiStarTag} </li>`;
     }).join("");
 
     return `

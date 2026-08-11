@@ -110,7 +110,7 @@ function getZiweiChartData(gender, dateVal, timeVal) {
 
     const addStar = (branchIdx, starName, starType) => {
         const bName = ZIWEI_DICT.branches[(branchIdx + 120) % 12];
-        const sihua = ZIWEI_DICT.siHuaMap?.[yearGan]?.[starName] || "";
+        const sihua = ZIWEI_DICT.siHuaMap?.[yearGan]?.[starName] || ""; 
         const brightness = ZIWEI_DICT.brightnessMap?.[starName]?.[bName] || "平";
 
         palaceMap[bName].stars.push({
