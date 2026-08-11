@@ -168,15 +168,20 @@ function renderSummaryTab() {
         header.appendChild(btn);
     });
 
-    if (summarySubIndex === -1) {
+    if (summarySubIndex === -1) {   
 
-        let play = 'sdsdsd';
+
+
+        let wuXingJuTag = ZIWEI_DICT.diShiMap[currentChartData.userInfo.palaceCategory] || ''; 
+        let diShiTag = ZIWEI_DICT.diShiMap[currentChartData.userInfo.palaceCategory] || ''; 
+
+
 
         container.innerHTML = `
             <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #ddd;">
                 <h3>【个人命盘总体综合解读】</h3>
                 <p style="margin-top:8px; color:#555;">本命盘以${currentChartData.userInfo.bureauStr}为主，命宫落在 ${currentChartData.orderedPalaceList[0].branch} 宫。整体星曜分布均衡，三方四正格局清晰。</p>
-                <p style="margin-top:8px; color:#555;">${play}</p>
+                <p style="margin-top:8px; color:#555;">${currentChartData.userInfo.palaceCategory}  ：  ${diShiTag}</p>
             </div>
         `;
     } else {
