@@ -110,7 +110,9 @@ function renderLeftPanel() {
     if (quickInfo) {
         quickInfo.innerHTML = `
             <div style="background:#fff; padding:10px; border-radius:6px; margin-bottom:10px; font-size:13px; border:1px solid #ddd;">
-                <div><b>格局：</b>${u.genderStr} / ${u.bureauStr}</div>
+                <div><b>格局：</b>${u.genderStr} </div>
+                <div><b>天干地支：</b>${u.tiangandizhi}</div>
+                <div><b>五行局：</b>${u.bureauStr}</div>
                 <div><b>地势：</b>${u.palaceCategory}</div>
                 <div><b>命主/身主：</b>${u.mingZhu} / ${u.shenZhu}</div>
                 <div><b>农历：</b>${u.lunarStr}</div>
@@ -131,7 +133,7 @@ function renderLeftPanel() {
 
             tr.innerHTML = `
                 <td><b>${p.name}</b></td>
-                <td>${p.branch}</td>
+                <td>${p.tianGan} ${p.branch}</td>
                 <td style="font-size:12px; color:#333;">${starsStr || '(无主星)'}</td>
                 <td>${p.daYunText}</td> 
             `;
@@ -172,22 +174,64 @@ function renderSummaryTab() {
 
 
 
-        let wuXingJuTag = ZIWEI_DICT.diShiMap[currentChartData.userInfo.palaceCategory] || ''; 
+        let wuXingJuTag = ZIWEI_DICT.wuXingJuMap[currentChartData.userInfo.bureauStr] || ''; 
         let diShiTag = ZIWEI_DICT.diShiMap[currentChartData.userInfo.palaceCategory] || ''; 
+        let mingZhuTag = ZIWEI_DICT.mingzhuDesMap[currentChartData.userInfo.mingZhu] || ''; 
+        let shenZhuTag = ZIWEI_DICT.shenzhuDesMap[currentChartData.userInfo.shenZhu] || ''; 
+        let shenGongTag = ZIWEI_DICT.shenGongDesMap[currentChartData.userInfo.shenGong] || ''; 
+
+         
+
+        
+        let mingPanHuaLuTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['禄'] || '';
+        let mingPanHuaQuanTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['权'] || '';
+        let mingPanHuaKeTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['科'] || '';
+        let mingPanHuaJiTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['忌'] || ''; 
+
+
+         
+
+        let HuaLuTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['禄'] || '';
+        let HuaQuanTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['权'] || '';
+        let HuaKeTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['科'] || '';
+        let HuaJiTag = ZIWEI_DICT.siHuaMap2?.[currentChartData.userInfo.gzYear.charAt(0)]?.['忌'] || '';   
+        let HuaLuGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaLuTag].gongWeiName || ''; 
+        let HuaQuanGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaQuanTag].gongWeiName || '';    
+        let HuaKeGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaKeTag].gongWeiName || '';  
+        let HuaJiGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaJiTag].gongWeiName || ''; 
+        let HuaLuGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaLuGongWeiTag]?.[HuaLuTag] || "";
+        let HuaQuanGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaQuanGongWeiTag]?.[HuaQuanTag] || ""; 
+        let HuaKeGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaKeGongWeiTag]?.[HuaKeTag] || "";
+        let HuaJiGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaJiGongWeiTag]?.[HuaJiTag] || ""; 
+
 
 
 
         container.innerHTML = `
             <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #ddd;">
-                <h3>【个人命盘总体综合解读】</h3>
-                <p style="margin-top:8px; color:#555;">本命盘以${currentChartData.userInfo.bureauStr}为主，命宫落在 ${currentChartData.orderedPalaceList[0].branch} 宫。整体星曜分布均衡，三方四正格局清晰。</p>
+                <h3>【个人命盘总体综合解读】</h3> 
+                <p style="margin-top:8px; color:#555;">${currentChartData.userInfo.bureauStr}  ：  ${wuXingJuTag}</p>
                 <p style="margin-top:8px; color:#555;">${currentChartData.userInfo.palaceCategory}  ：  ${diShiTag}</p>
+                <p style="margin-top:8px; color:#555;">身宫（${currentChartData.userInfo.shenGong}）：${shenGongTag}</p>
+                <p style="margin-top:8px; color:#555;">命主（${currentChartData.userInfo.mingZhu}）：${mingZhuTag}</p>
+                <p style="margin-top:8px; color:#555;">身主（${currentChartData.userInfo.shenZhu}）：${shenZhuTag}</p>
+                <br/>
+                <h3>【四化】</h3>   
+                <p style="margin-top:8px; color:#555;"><span class="sihua-lu">${HuaLuGongWeiTag} ${mingPanHuaLuTag}化禄</span> ：  ${HuaLuGongWeiDescTag}</p>
+                <p style="margin-top:8px; color:#555;"><span class="sihua-quan">${HuaQuanGongWeiTag} ${mingPanHuaQuanTag}化权</span>  ：  ${HuaQuanGongWeiDescTag}</p>
+                <p style="margin-top:8px; color:#555;"><span class="sihua-ke">${HuaKeGongWeiTag} ${mingPanHuaKeTag}化科</span>  ：  ${HuaKeGongWeiDescTag}</p>
+                <p style="margin-top:8px; color:#555;"><span class="sihua-ji">${HuaJiGongWeiTag} ${mingPanHuaJiTag}化忌</span>  ：  ${HuaJiGongWeiDescTag}</p> 
+                
+               
+
+
             </div>
         `;
     } else {
         container.innerHTML = renderPalaceDetailContent({
             palaceName: currentChartData.orderedPalaceList[summarySubIndex].name,
             branch: currentChartData.orderedPalaceList[summarySubIndex].branch,
+            tianGan: currentChartData.orderedPalaceList[summarySubIndex].tianGan,
             palaceRef: currentChartData.orderedPalaceList[summarySubIndex].palaceRef,
             scopeTitle: "本命盘",
             hierarchyInfo: { originalName: currentChartData.orderedPalaceList[summarySubIndex].name }
@@ -334,7 +378,8 @@ function renderFortuneTab() {
     btnAllFortune.onclick = () => { fortuneSubIndex = -1; renderFortuneTab(); };
     fortuneSubHeader.appendChild(btnAllFortune);
 
-    const palaceItems = [];
+    const palaceItems = []; 
+    const palaceStarGongWeiMap = [];
     for (let i = 0; i < 12; i++) {
         let currentTargetIdx;
         if (selectedLiuYueMonth !== null) {
@@ -344,8 +389,9 @@ function renderFortuneTab() {
         } else {
             currentTargetIdx = (daYunBaseIdx + i) % 12;
         }
-
+        
         const orgPalace = currentChartData.orderedPalaceList[currentTargetIdx];
+        const orgTianGanPalace = currentChartData.palaceStarGongWeiMap[currentTargetIdx];
         
         // 同时计算大运宫位、流年宫位对应的原始本命宫
         const daYunOrgIdx = (daYunBaseIdx + i) % 12;
@@ -356,6 +402,7 @@ function renderFortuneTab() {
             name: standardPalaceNames[i],
             branch: orgPalace.branch,
             palaceRef: orgPalace.palaceRef,
+            tianGan: orgPalace.tianGan,
             hierarchyInfo: {
                 originalName: originalPalaceName,
                 daYunName: daYunPalaceName,
@@ -363,12 +410,21 @@ function renderFortuneTab() {
                 liuYueName: selectedLiuYueMonth !== null ? standardPalaceNames[i] : null
             }
         });
+
+
+        //palaceStarGongWeiMap[standardPalaceNames[i]] = { starName: standardPalaceNames[i], mingGongTianGan: getBranchTianGan(idx), gongWeiName: standardPalaceNames[i], gongWeiBranch: orgPalace.branch };
+        //palaceStarGongWeiMap[standardPalaceNames[i]] = { starName: originalPalaceName, mingGongTianGan: orgPalace.tianGan, gongWeiName: standardPalaceNames[i], gongWeiBranch: orgPalace.branch };
+
     }
 
     palaceItems.forEach((p, idx) => {
         const btn = document.createElement("button");
         btn.className = `sub-tab-btn ${fortuneSubIndex === idx ? 'active' : ''}`;
-        btn.textContent = p.name + "宫"; 
+        if(p.name != "命宫"){
+            btn.textContent = p.name + "宫"; 
+        } else{
+            btn.textContent = p.name
+        }
         btn.onclick = () => {
             fortuneSubIndex = idx;
             renderFortuneTab();
@@ -394,30 +450,33 @@ function renderFortuneTab() {
         fortuneSubContainer.innerHTML = renderPalaceDetailContent({
             palaceName: palaceItems[fortuneSubIndex].name,
             branch: palaceItems[fortuneSubIndex].branch,
+            tianGan: palaceItems[fortuneSubIndex].tianGan,
             palaceRef: palaceItems[fortuneSubIndex].palaceRef,
             scopeTitle: scopeTitle,
             hierarchyInfo: palaceItems[fortuneSubIndex].hierarchyInfo
-        });
+        }); 
     }
 }
 
 // 统一的宫位详细解说渲染器（完美支持多层级宫位追踪显示）
 function renderPalaceDetailContent(data) {
-    const { palaceName, branch, palaceRef, scopeTitle, hierarchyInfo } = data;
-    
+    const { palaceName, branch, tianGan, palaceRef, scopeTitle, hierarchyInfo } = data;
+     
     const branches = ZIWEI_DICT.branches;
     const bIdx = branches.indexOf(branch);
     const duiBranch = branches[(bIdx + 6) % 12];
     const sanhe1 = branches[(bIdx + 4) % 12];
     const sanhe2 = branches[(bIdx + 8) % 12];
+    
+    
     const getPalaceByBranch = (b) => {
         return Object.values(currentChartData.palaceMap).find(item => item.branch === b);
     };
-
+    
+    
     const duiPalace = getPalaceByBranch(duiBranch);
     const sanhe1Palace = getPalaceByBranch(sanhe1);
-    const sanhe2Palace = getPalaceByBranch(sanhe2);
-
+    const sanhe2Palace = getPalaceByBranch(sanhe2); 
     // 动态构建多层级宫位追踪提示
     let hierarchyHtml = "";
     if (hierarchyInfo) {
@@ -439,8 +498,7 @@ function renderPalaceDetailContent(data) {
                 ${lines.join('<br>')}
             </div>
         `;
-    }
-
+    } 
     const sihuaMap = ZIWEI_DICT.siHuaMap[currentChartData.yearGan] || {};
     let sihuaDetails = [];
     Object.keys(sihuaMap).forEach(star => {
@@ -457,17 +515,38 @@ function renderPalaceDetailContent(data) {
         let nameTag = `<span style="font-weight:bold">[${s.name}]</span>`;
         let sihuaTag = s.sihua ? `<span style="font-weight:bold" class="sihua-${getHuaClass(s.sihua)}">[化${s.sihua}]</span>` : '';
         let brightnessTag = s.brightness ? `<span style="font-weight:bold">[${s.brightness}]</span>` : ''
-        let gongweiStarTag = ZIWEI_DICT.gongweistarMap?.[palaceName]?.[s.name] || "";
- 
-
+        let tempPlaceName = palaceName;
+        if (!tempPlaceName.endsWith('宫')) {
+            tempPlaceName += '宫';
+        }
+        
+        let gongweiStarTag = ZIWEI_DICT.gongweistarMap?.[tempPlaceName]?.[s.name] || "";
+  
 
         return `<li>${nameTag} ${sihuaTag} ${brightnessTag} ${gongweiStarTag} </li>`;
     }).join("");
 
+
+    // 计算该宫位的四化
+    let HuaLuTag = ZIWEI_DICT.siHuaMap2?.[tianGan]?.['禄'] || ''; 
+    let HuaQuanTag = ZIWEI_DICT.siHuaMap2?.[tianGan]?.['权'] || '';
+    let HuaKeTag = ZIWEI_DICT.siHuaMap2?.[tianGan]?.['科'] || '';
+    let HuaJiTag = ZIWEI_DICT.siHuaMap2?.[tianGan]?.['忌'] || '';  
+    let HuaLuGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaLuTag].gongWeiName || '';
+    let HuaQuanGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaQuanTag].gongWeiName || '';    
+    let HuaKeGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaKeTag].gongWeiName || '';  
+    let HuaJiGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaJiTag].gongWeiName || ''; 
+     
+    let HuaLuGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaLuGongWeiTag]?.[HuaLuTag] || "";
+    let HuaQuanGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaQuanGongWeiTag]?.[HuaQuanTag] || ""; 
+    let HuaKeGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaKeGongWeiTag]?.[HuaKeTag] || "";
+    let HuaJiGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaJiGongWeiTag]?.[HuaJiTag] || ""; 
+
+ 
     return `
         <div style="background:#fff; padding:15px; border-radius:6px; border:1px solid #ddd;">
             <h3 style="border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:10px; color:#333;">
-                【${palaceName}宫】 <span style="font-size:12px; font-weight:normal; color:#666;">(${scopeTitle} / 地支：${branch})</span>
+                【${palaceName}】 <span style="font-size:12px; font-weight:normal; color:#666;">(${scopeTitle} / 地支：${branch})</span>
             </h3>
             
             ${hierarchyHtml}
@@ -485,9 +564,14 @@ function renderPalaceDetailContent(data) {
                 </div>
             </div>
             <div style="background: #f1f8ff; padding: 10px; border-radius: 4px; font-size: 13px; border:1px solid #d0e1fd;">
-                <strong>四化星落宫追踪：</strong><br>
-                ${sihuaDetails.join('<br>') || '暂无生年四化记录'}
+                <strong>四化星落宫追踪：</strong><br>    
+                <p style="margin-top:8px; color:#555;"><span class="sihua-lu">${HuaLuGongWeiTag} ${HuaLuTag}化禄</span> ：  ${HuaLuGongWeiDescTag}</p>
+                <p style="margin-top:8px; color:#555;"><span class="sihua-quan">${HuaQuanGongWeiTag} ${HuaQuanTag}化权</span>  ：  ${HuaQuanGongWeiDescTag}</p>
+                <p style="margin-top:8px; color:#555;"><span class="sihua-ke">${HuaKeGongWeiTag} ${HuaKeTag}化科</span>  ：  ${HuaKeGongWeiDescTag}</p>
+                <p style="margin-top:8px; color:#555;"><span class="sihua-ji">${HuaJiGongWeiTag} ${HuaJiTag}化忌</span>  ：  ${HuaJiGongWeiDescTag}</p> 
             </div>
         </div>
     `;
 }
+
+

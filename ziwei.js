@@ -28,6 +28,12 @@ function getZiweiChartData(gender, dateVal, timeVal) {
     const tigerGanStart = tigerGans[ganIndexMap[yearGan] % 5];
     const tigerStartIdx = ganIndexMap[tigerGanStart];
 
+    const getBranchTianGan = (bIdx) => {
+        // 以寅宫(索引2)为起点顺推
+        const dist = (bIdx - 2 + 12) % 12;
+        return ZIWEI_DICT.stems[(tigerStartIdx + dist) % 10];
+    };
+
     const distFromYin = (mingGongIdx - 2 + 12) % 12;
     const mingGongGan = ZIWEI_DICT.stems[(tigerStartIdx + distFromYin) % 10];
     const mingGongGanzhi = mingGongGan + ZIWEI_DICT.branches[mingGongIdx];
@@ -58,7 +64,8 @@ function getZiweiChartData(gender, dateVal, timeVal) {
 
     const palaceMap = {};
     ZIWEI_DICT.branches.forEach((b, idx) => {
-        palaceMap[b] = { branch: b, name: "", isShenGong: (idx === shenGongIdx), stars: [] };
+        const tianGan = getBranchTianGan(idx);
+        palaceMap[b] = { branch: b, tianGan: tianGan,  ganzhi:tianGan + b  ,name: "", isShenGong: (idx === shenGongIdx), stars: [] };
     });
 
     ZIWEI_DICT.palaces.forEach((pName, pIdx) => {
@@ -70,9 +77,14 @@ function getZiweiChartData(gender, dateVal, timeVal) {
     const currentCalendarYear = new Date().getFullYear(); 
     const currentAge = currentCalendarYear - year + 1;    
 
-    let activeDaYunStr = "";
-    const orderedPalaceList = [];
 
+
+
+
+
+    let activeDaYunStr = "";
+    const orderedPalaceList = []; 
+    const palaceStarGongWeiMap = [];
     // 核心修正：大限必须从“命宫”所在的地支索引开始，顺行或逆行每10年步进一宫
     ZIWEI_DICT.branches.forEach((bName, bIdx) => {
         const pObj = palaceMap[bName];
@@ -83,6 +95,9 @@ function getZiweiChartData(gender, dateVal, timeVal) {
         } else {
             step = (mingGongIdx - bIdx + 12) % 12;
         }
+        
+         
+          
 
         let startAge = bureauNum + step * 10;
         let endAge = startAge + 9;
@@ -99,6 +114,7 @@ function getZiweiChartData(gender, dateVal, timeVal) {
         orderedPalaceList.push({
             order: pIndex >= 0 ? pIndex + 1 : 1,
             name: pObj.name,
+            tianGan : palaceMap[bName].tianGan,
             branch: bName,
             daYunText: daYunText,
             isShenGong: pObj.isShenGong,
@@ -119,7 +135,11 @@ function getZiweiChartData(gender, dateVal, timeVal) {
             sihua: sihua,
             brightness: brightness
         });
+
+        palaceStarGongWeiMap[starName] = { starName: starName, mingGongTianGan: palaceMap[bName].tianGan, gongWeiName: palaceMap[bName].name, gongWeiBranch: bName, sihua: sihua, brightness: brightness };
     };
+  
+
 
     ZIWEI_DICT.ziweiGroup.forEach(s => addStar(ziweiIdx + s.offset, s.name, 'main'));
     ZIWEI_DICT.tianfuGroup.forEach(s => addStar(tianfuIdx + s.offset, s.name, 'main'));
@@ -144,8 +164,8 @@ function getZiweiChartData(gender, dateVal, timeVal) {
     addStar(11 - timeZhiIdx, "地空", 'bad');
     addStar(11 + timeZhiIdx, "地劫", 'bad');
 
-    const huoStartMap = { "寅": 1, "午": 1, "戌": 1, "申": 2, "子": 2, "辰": 2, "巳": 3, "酉": 3, "丑": 3, "亥": 9, "卯": 9, "未": 9 };
-    const lingStartMap = { "寅": 3, "午": 3, "戌": 3, "申": 10, "子": 10, "辰": 10, "巳": 10, "酉": 10, "丑": 10, "亥": 10, "卯": 10, "未": 10 };
+    const huoStartMap = { "寅": 1, "午": 1, "戊": 1, "申": 2, "子": 2, "辰": 2, "巳": 3, "酉": 3, "丑": 3, "亥": 9, "卯": 9, "未": 9 };
+    const lingStartMap = { "寅": 3, "午": 3, "戊": 3, "申": 10, "子": 10, "辰": 10, "巳": 10, "酉": 10, "丑": 10, "亥": 10, "卯": 10, "未": 10 };
     addStar((huoStartMap[yearZhi] || 1) + timeZhiIdx, "火星", 'bad');
     addStar((lingStartMap[yearZhi] || 3) + timeZhiIdx, "铃星", 'bad');
 
@@ -153,9 +173,10 @@ function getZiweiChartData(gender, dateVal, timeVal) {
     addStar((3 + (12 - zhiIndexMap[yearZhi]) + 6) % 12, "天喜", 'sub');
 
     let yinyangGender = isMale ? (isYangStem ? "阳男" : "阴男") : (isYangStem ? "阳女" : "阴女");
-    const fourMap = { "寅": "四马地", "申": "四马地", "巳": "四马地", "亥": "四马地", "子": "四花地", "午": "四花地", "卯": "四花地", "酉": "四花地", "辰": "四墓地", "戌": "四墓地", "丑": "四墓地", "未": "四墓地" };
-    const mingZhuMap = { "子": "贪狼", "丑": "巨门", "寅": "禄存", "卯": "文曲", "辰": "廉贞", "巳": "武曲", "午": "破军", "未": "武曲", "申": "廉贞", "酉": "文曲", "戌": "禄存", "亥": "巨门" };
-    const shenZhuMap = { "子": "铃星", "丑": "天相", "寅": "天梁", "卯": "天同", "辰": "天机", "巳": "天机", "午": "火星", "未": "天相", "申": "天梁", "酉": "天同", "戌": "天机", "亥": "天机" };
+    const fourMap = { "寅": "四马地", "申": "四马地", "巳": "四马地", "亥": "四马地", "子": "四花地", "午": "四花地", "卯": "四花地", "酉": "四花地", "辰": "四墓地", "戊": "四墓地", "丑": "四墓地", "未": "四墓地" };
+    const mingZhuMap = { "子": "贪狼", "丑": "巨门", "寅": "禄存", "卯": "文曲", "辰": "廉贞", "巳": "武曲", "午": "破军", "未": "武曲", "申": "廉贞", "酉": "文曲", "戊": "禄存", "亥": "巨门" };
+    const shenZhuMap = { "子": "铃星", "丑": "天相", "寅": "天梁", "卯": "天同", "辰": "天机", "巳": "天机", "午": "火星", "未": "天相", "申": "天梁", "酉": "天同", "戊": "天机", "亥": "天机" };
+    const shenGongMap = { "子": "命宫", "丑": "福德宫", "寅": "官禄宫", "卯": "迁移宫", "辰": "财帛宫", "巳": "夫妻宫", "午": "命宫", "未": "福德宫", "申": "官禄宫", "酉": "迁移宫", "戊": "财帛宫", "亥": "夫妻宫" };
 
     const nowSolar = Solar.fromDate(new Date());
     const nowLunar = nowSolar.getLunar();
@@ -172,11 +193,15 @@ function getZiweiChartData(gender, dateVal, timeVal) {
             solarStr: `${year}年${month}月${day}日 ${timeVal}`,
             lunarStr: `${lunar.getYearInChinese()}年 ${lunar.getMonthInChinese()}月${lunar.getDayInChinese()} ${timeZhi}时`,
             ganzhiStr: `${gzYear}年 ${gzMonth}月 ${gzDay}日 ${gzTime}时`,
-            bureauStr: `${bureauNames[bureauNum]} (${mingGongGanzhi})`,
+            bureauStr: `${bureauNames[bureauNum]}`,
+            tiangandizhi: `${mingGongGanzhi}`,
             activeDaYunStr: activeDaYunStr || "暂未入限",
-            curLiuNianStr: curLiuNianStr
+            curLiuNianStr: curLiuNianStr,
+            shenGong: shenGongMap[yearZhi] || "命宫",
+            gzYear: gzYear
         },
         palaceMap,
-        orderedPalaceList
+        orderedPalaceList,
+        palaceStarGongWeiMap
     };
 }
