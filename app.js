@@ -109,14 +109,18 @@ function renderLeftPanel() {
     const u = currentChartData.userInfo;
     if (quickInfo) {
         quickInfo.innerHTML = `
-            <div style="background:#fff; padding:10px; border-radius:6px; margin-bottom:10px; font-size:13px; border:1px solid #ddd;">
-                <div><b>格局：</b>${u.genderStr} </div>
-                <div><b>天干地支：</b>${u.tiangandizhi}</div>
-                <div><b>五行局：</b>${u.bureauStr}</div>
-                <div><b>地势：</b>${u.palaceCategory}</div>
-                <div><b>命主/身主：</b>${u.mingZhu} / ${u.shenZhu}</div>
-                <div><b>农历：</b>${u.lunarStr}</div>
-                <div><b>现大运：</b>${u.activeDaYunStr}</div>
+            <div>
+                <table>
+                    <tr>
+                        <td><b>格局：</b>${u.genderStr}</td>
+                        <td><b>天干地支：</b>${u.tiangandizhi}</td>
+                        <td><b>五行局：</b>${u.bureauStr}</td>
+                        <td><b>地势：</b>${u.palaceCategory}</td>
+                        <td><b>命主/身主：</b>${u.mingZhu} / ${u.shenZhu}</td>
+                        <td><b>农历：</b>${u.lunarStr}</td>
+                        <td><b>现大运：</b>${u.activeDaYunStr}</td> 
+                    </tr>
+                </table> 
             </div>
         `;
     }
@@ -133,7 +137,7 @@ function renderLeftPanel() {
 
             tr.innerHTML = `
                 <td><b>${p.name}</b></td>
-                <td>${p.tianGan} ${p.branch}</td>
+                <td>${p.tianGan}${p.branch}</td>
                 <td style="font-size:12px; color:#333;">${starsStr || '(无主星)'}</td>
                 <td>${p.daYunText}</td> 
             `;
@@ -165,7 +169,7 @@ function renderSummaryTab() {
     currentChartData.orderedPalaceList.forEach((p, idx) => {
         const btn = document.createElement("button");
         btn.className = `sub-tab-btn ${summarySubIndex === idx ? 'active' : ''}`;
-        btn.textContent = p.name + "宫";
+        btn.textContent = p.name;
         btn.onclick = () => { summarySubIndex = idx; renderSummaryTab(); };
         header.appendChild(btn);
     });
@@ -257,14 +261,11 @@ function renderFortuneTab() {
 
     // 1. 渲染大运层
     dayunHeader.innerHTML = "";
-    currentChartData.orderedPalaceList.forEach((p, idx) => {
-        const startAge = p.daYunText.split('-')[0];
-        const baseYear = 2026 - 37 + parseInt(startAge);
-        const dateRangeStr = ` (${baseYear} ~ ${baseYear + 9}年)`;
+    currentChartData.orderedPalaceList.forEach((p, idx) => { 
 
         const btn = document.createElement("button");
         btn.className = `sub-tab-btn ${selectedDaYunIndex === idx ? 'active' : ''}`;
-        btn.textContent = `${p.daYunText}岁 [${p.name}宫]${dateRangeStr}`;
+        btn.textContent = `${p.daYunText} [${p.name}]`;
         btn.onclick = () => {
             if (selectedDaYunIndex === idx) {
                 selectedDaYunIndex = null;
@@ -297,7 +298,7 @@ function renderFortuneTab() {
             years.forEach(y => {
                 const btn = document.createElement("button");
                 btn.className = `sub-tab-btn ${selectedLiuNianYear === y ? 'active' : ''}`;
-                btn.textContent = `${y}年 (${y}-01-01~${y}-12-31)`;
+                btn.textContent = `${y}年`;
                 btn.onclick = () => {
                     if (selectedLiuNianYear === y) {
                         selectedLiuNianYear = null;
@@ -329,7 +330,7 @@ function renderFortuneTab() {
             months.forEach((m, mIdx) => {
                 const btn = document.createElement("button");
                 btn.className = `sub-tab-btn ${selectedLiuYueMonth === mIdx ? 'active' : ''}`;
-                btn.textContent = `${m} (${selectedLiuNianYear}年${mIdx+1}月)`;
+                btn.textContent = `${m}`;
                 btn.onclick = () => {
                     if (selectedLiuYueMonth === mIdx) {
                         selectedLiuYueMonth = null;
@@ -458,6 +459,7 @@ function renderFortuneTab() {
     }
 }
 
+
 // 统一的宫位详细解说渲染器（完美支持多层级宫位追踪显示）
 function renderPalaceDetailContent(data) {
     const { palaceName, branch, tianGan, palaceRef, scopeTitle, hierarchyInfo } = data;
@@ -573,5 +575,4 @@ function renderPalaceDetailContent(data) {
         </div>
     `;
 }
-
 

@@ -56,19 +56,11 @@ body {
 }
 
 .left-panel {
-<<<<<<< HEAD
-    width: 32%;
+    width: 30%;
 }
 
 .right-panel {
-    width: 68%;
-=======
-    width: 40%;
-}
-
-.right-panel {
-    width: 60%;
->>>>>>> 95f1935 (commit)
+    width: 70%; 
 }
 
 /* 左侧运势快览卡片 */
