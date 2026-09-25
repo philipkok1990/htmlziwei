@@ -484,15 +484,15 @@ function renderPalaceDetailContent(data) {
     if (hierarchyInfo) {
         let lines = [];
         if (hierarchyInfo.liuYueName) {
-            lines.push(`• 流月宫位：【流月${hierarchyInfo.liuYueName}宫】`);
+            lines.push(`• 流月宫位：【流月${hierarchyInfo.liuYueName}】`);
         }
         if (hierarchyInfo.liuNianName) {
-            lines.push(`• 流年宫位：【流年${hierarchyInfo.liuNianName}宫】`);
+            lines.push(`• 流年宫位：【流年${hierarchyInfo.liuNianName}】`);
         }
         if (hierarchyInfo.daYunName) {
-            lines.push(`• 大运宫位：【大运${hierarchyInfo.daYunName}宫】`);
+            lines.push(`• 大运宫位：【大运${hierarchyInfo.daYunName}】`);
         }
-        lines.push(`• 命盘原位：【原本${hierarchyInfo.originalName}宫】 (地支：${branch})`);
+        lines.push(`• 命盘原位：【原本${hierarchyInfo.originalName}】 (地支：${branch})`);
 
         hierarchyHtml = `
             <div style="background: #fff8e1; padding: 10px; border-radius: 4px; border: 1px solid #ffe0b2; margin-bottom: 12px; font-size: 13px; line-height: 1.6;">
@@ -538,7 +538,14 @@ function renderPalaceDetailContent(data) {
     let HuaQuanGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaQuanTag].gongWeiName || '';    
     let HuaKeGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaKeTag].gongWeiName || '';  
     let HuaJiGongWeiTag = currentChartData.palaceStarGongWeiMap[HuaJiTag].gongWeiName || ''; 
-     
+    
+    HuaLuGongWeiTag = getInnerBranchName(hierarchyInfo.originalName, HuaLuGongWeiTag);
+    HuaQuanGongWeiTag = getInnerBranchName(hierarchyInfo.originalName, HuaQuanGongWeiTag);
+    HuaKeGongWeiTag = getInnerBranchName(hierarchyInfo.originalName, HuaKeGongWeiTag);
+    HuaJiGongWeiTag = getInnerBranchName(hierarchyInfo.originalName, HuaJiGongWeiTag);
+
+
+
     let HuaLuGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaLuGongWeiTag]?.[HuaLuTag] || "";
     let HuaQuanGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaQuanGongWeiTag]?.[HuaQuanTag] || ""; 
     let HuaKeGongWeiDescTag = ZIWEI_DICT.gongweistarMap?.[HuaKeGongWeiTag]?.[HuaKeTag] || "";
@@ -566,7 +573,7 @@ function renderPalaceDetailContent(data) {
                 </div>
             </div>
             <div style="background: #f1f8ff; padding: 10px; border-radius: 4px; font-size: 13px; border:1px solid #d0e1fd;">
-                <strong>四化星落宫追踪：</strong><br>    
+                <strong>四化星落宫追踪：</strong><br>   ${branch}     ${tianGan} 
                 <p style="margin-top:8px; color:#555;"><span class="sihua-lu">${HuaLuGongWeiTag} ${HuaLuTag}化禄</span> ：  ${HuaLuGongWeiDescTag}</p>
                 <p style="margin-top:8px; color:#555;"><span class="sihua-quan">${HuaQuanGongWeiTag} ${HuaQuanTag}化权</span>  ：  ${HuaQuanGongWeiDescTag}</p>
                 <p style="margin-top:8px; color:#555;"><span class="sihua-ke">${HuaKeGongWeiTag} ${HuaKeTag}化科</span>  ：  ${HuaKeGongWeiDescTag}</p>
@@ -576,3 +583,15 @@ function renderPalaceDetailContent(data) {
     `;
 }
 
+function getInnerBranchName(dayunMingGong, targetOriginalGong) { 
+    
+    var dayunMingIndex = ZIWEI_DICT.palaces.indexOf(dayunMingGong);
+    var targetIndex = ZIWEI_DICT.palaces.indexOf(targetOriginalGong); 
+
+    if (dayunMingIndex === -1 || targetIndex === -1) {
+        alert("输入的宫位名称不在标准的十二宫列表中！");
+        throw new Error("输入的宫位名称不在标准的十二宫列表中！");
+    } 
+    var relativeIndex = (targetIndex - dayunMingIndex + ZIWEI_DICT.palaces.length) % ZIWEI_DICT.palaces.length; 
+    return ZIWEI_DICT.palaces[relativeIndex];
+}
